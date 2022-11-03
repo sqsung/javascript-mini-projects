@@ -25,6 +25,7 @@ const calendarFunction = ($calendarContainer) => {
     weekdays.appendChild(day);
   };
 
+  let accessibleDays = [];
   const updateCalendar = (newDate) => {
     newDate.setDate(1);
     const firstDay = newDate.getDay();
@@ -56,9 +57,10 @@ const calendarFunction = ($calendarContainer) => {
     };
   
     monthDays.innerHTML = days;
+    accessibleDays = [...document.getElementsByClassName('every-day')];
   };
 
-  updateCalendar(date);
+  updateCalendar(date);  
   appendChildren(currentMonthAndYear, [currentMonth, currentYear]);
   appendChildren(calendarNav, [previousButton, currentMonthAndYear, nextButton]);
   appendChildren($calendarContainer, [calendarDOM]);
@@ -75,7 +77,6 @@ const calendarFunction = ($calendarContainer) => {
     updateCalendar(date);   
   });
 
-  const monthDaysArr = [...monthDays.children];
   monthDays.addEventListener('mouseover', event => {
     event.target.classList.add('active');
   });
@@ -84,22 +85,34 @@ const calendarFunction = ($calendarContainer) => {
     event.target.classList.remove('active');
   });
 
+  const datePickerInput = document.getElementsByClassName('date-picker-input')[0];
+  
   monthDays.addEventListener('click', event => {
-    if([...document.getElementsByClassName('clicked')].length > 0) {
+    if (event.target === weekdays || event.target === monthDays || !accessibleDays.includes(event.target)) return;
+
+    if ([...document.getElementsByClassName('clicked')].length > 0) {
       document.getElementsByClassName('clicked')[0].classList.remove('clicked');
     }    
-
     event.target.classList.add('clicked');
+    
+    const yyyy = currentYear.innerHTML;
 
-    $container.setAttribute('date', event.target.getAttribute('id'));
-    let cusEvent = new CustomEvent('changeDate', {detail: $container.getAttribute('date')});
-    $container.dispatchEvent(cusEvent);
+    let mm;
+    if (currentMonth.innerHTML === 'October' || currentMonth.innerHTML === 'November' || currentMonth.innerHTML === 'December') {
+      mm = monthsArr.indexOf(currentMonth.innerHTML) + 1;
+    } else {
+      mm = `0${monthsArr.indexOf(currentMonth.innerHTML) + 1}`
+    }
+    
+    let dd; 
+    if (document.getElementsByClassName('clicked')[0].innerHTML < 10) {
+      dd = `0${document.getElementsByClassName('clicked')[0].innerHTML}`
+    } else {
+      dd = document.getElementsByClassName('clicked')[0].innerHTML;
+    }
+    
+    datePickerInput.value = (`${yyyy}-${mm}-${dd}`);
   });
-
-//   $container.querySelector('.calendar').addEventListener('changeDate', event => {
-//     const date = event.detail;
-//     $container.querySelector('.datepicker-input').value = date;
-// });
 };
 
 export default calendarFunction;

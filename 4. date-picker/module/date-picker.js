@@ -11,11 +11,6 @@ const datePickerFunction = $container => {
   
   $container.appendChild(datePickerDOM);
   appendChildren(datePickerDOM, [datePickerTitle, datePickerInput]);
-
-  $container.querySelector('.calendar').addEventListener('changeDate', cusEvent => {
-    const date = cusEvent.detail;
-    $container.querySelector('.datepicker-input').value = date;
-});
-}
+};
 
 export default datePickerFunction;

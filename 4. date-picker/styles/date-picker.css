@@ -2,7 +2,6 @@
   --color-gray: rgb(143, 143, 143);
 }
 .date-picker {
-  /* border: 1px solid salmon; */
   margin: 0 auto;
   position: relative; 
   width: 350px; 
