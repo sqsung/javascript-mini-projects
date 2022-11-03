@@ -1,0 +1,24 @@
+@import url(/styles/date-picker.css);
+@import url(/styles/calendar.css);
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+}
+body {
+  background-color: #f2f4f6;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+.container {
+  /* border: 1px solid black; */
+  margin-top: 20px;
+}
+
+/* image color code
+background : #f2f4f6
+main color : #5cd17b
+red fonts : #ae6e63
+*/

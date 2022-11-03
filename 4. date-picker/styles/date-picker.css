@@ -1,0 +1,31 @@
+:root {
+  --color-gray: rgb(143, 143, 143);
+}
+.date-picker {
+  /* border: 1px solid salmon; */
+  margin: 0 auto;
+  position: relative; 
+  width: 350px; 
+  min-width: 350px;
+  height: 450px;
+}
+.date-picker-input {
+  border: 1px solid var(--color-gray);
+  border-radius: 3px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 8px; 
+  width: 120px;
+  height: 20px;
+  padding-left: 5px;
+}
+.date-picker-input:focus {
+  outline: none;
+  border: 1px solid #6392f7;
+  border-radius: 3px;
+}
+.date-picker-title {
+  color: #ba786c;
+  font-size: 20px;
+  font-weight: 400;
+}
