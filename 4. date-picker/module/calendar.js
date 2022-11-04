@@ -2,22 +2,19 @@ import { createDOMWithClassName, appendChildren } from '../utils/dom.js';
 
 const monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const weekdaysArr = ['SUN', 'MON','TUE', 'WED', 'THU', 'FRI', 'SAT'];
-const date = new Date();
 
-const calendarFunction = ($calendarContainer) => {
+const calendarFunction = $calendarContainer => {
   const calendarDOM = createDOMWithClassName('div', 'calendar');
   const calendarNav = createDOMWithClassName('div', 'calendar-nav');
   const calendarGrid = createDOMWithClassName('div', 'calendar-grid');
-  
   const currentMonthAndYear = createDOMWithClassName('div', 'month-and-year');
   const previousButton = createDOMWithClassName('i', 'bi bi-caret-left-fill previous');
   const nextButton = createDOMWithClassName('i', 'bi bi-caret-right-fill next');
-
   let currentYear = createDOMWithClassName('p', 'year'); 
   let currentMonth = createDOMWithClassName('p', 'month'); 
-
   const weekdays = createDOMWithClassName('div', 'weekdays');
   const monthDays = createDOMWithClassName('div', 'month-day');
+  const datePickerInput = $calendarContainer.querySelector('.date-picker-input');
 
   for(let i = 0; i < weekdaysArr.length; i++) {
     let day = document.createElement('p');
@@ -25,56 +22,79 @@ const calendarFunction = ($calendarContainer) => {
     weekdays.appendChild(day);
   };
 
-  let accessibleDays = [];
-  const updateCalendar = (newDate) => {
+  const date = new Date();
+
+  function updateCalendar(newDate) {
     newDate.setDate(1);
     const firstDay = newDate.getDay();
     const lastDay = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate();
     const lastDayIndex = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDay();
     const prevMonthLastDay = new Date(newDate.getFullYear(), newDate.getMonth(), 0).getDate();
     const nextMonthDay = 7 - lastDayIndex - 1;
-    
     currentYear.innerHTML = date.getFullYear();
     currentMonth.innerHTML = monthsArr[date.getMonth()];
+    const nextMonth = monthsArr[(monthsArr.indexOf(currentMonth.innerHTML) + 1) % 12];
+    const prevMonth = monthsArr[Math.abs((monthsArr.indexOf(currentMonth.innerHTML) - 1)) % 12];
 
     let days = '';
     for(let i = firstDay; i > 0; i--) {
-      days += `<div class="prev-month-day">${prevMonthLastDay - i + 1}</div>`;
+      let $id = getFullDate(currentYear.innerHTML, prevMonth, prevMonthLastDay - i + 1);
+      days += `<div class="prev-month-day d" id="${$id}">${prevMonthLastDay - i + 1}</div>`;
     };
   
     for(let i = 1; i <= lastDay; i++) {
+      let $id = getFullDate(currentYear.innerHTML, currentMonth.innerHTML, i);
       if (i === new Date().getDate() && newDate.getMonth() === new Date().getMonth()) {
-        days += `<div class="every-day today">${i}</div>`;
+        days += `<div class="every-day today d" id="${$id}">${i}</div>`;
       } else if ((i + firstDay - 1) % 7 === 0) {
-        days += `<div class="every-day sunday">${i}</div>`;  
+        days += `<div class="every-day sunday d" id="${$id}">${i}</div>`;  
       } else {
-        days += `<div class="every-day">${i}</div>`;
+        days += `<div class="every-day d" id="${$id}">${i}</div>`;
       };
     };
   
     for(let i = 1; i <= nextMonthDay; i++) {
-      days += `<div class="next-month-day">${i}</div>`;
+      let $id = getFullDate(currentYear.innerHTML, nextMonth, i);
+      days += `<div class="next-month-day d" id="${$id}">${i}</div>`;
     };
   
     monthDays.innerHTML = days;
-    accessibleDays = [...document.getElementsByClassName('every-day')];
   };
 
+  function getFullDate(yyyy, mm, dd) {
+    let $yyyy = yyyy;
+    let $mm;
+    let $dd; 
+
+    monthsArr.indexOf(mm) + 1 < 10 ? $mm = `0${monthsArr.indexOf(mm) + 1}` : $mm = monthsArr.indexOf(mm) + 1;
+    dd < 10 ? $dd = `0${dd}` : $dd = dd;
+
+    return `${$yyyy}-${$mm}-${$dd}`;
+  }
+
   updateCalendar(date);  
-  appendChildren(currentMonthAndYear, [currentMonth, currentYear]);
-  appendChildren(calendarNav, [previousButton, currentMonthAndYear, nextButton]);
+
   appendChildren($calendarContainer, [calendarDOM]);
   appendChildren(calendarDOM, [calendarNav, calendarGrid]);
+  appendChildren(calendarNav, [previousButton, currentMonthAndYear, nextButton]);
   appendChildren(calendarGrid, [weekdays, monthDays]);
+  appendChildren(currentMonthAndYear, [currentMonth, currentYear]);
+
+  let curMonthDay = $calendarContainer.querySelector('.month-day');
+  let clickableDay = [...$calendarContainer.querySelectorAll('.d')];
 
   previousButton.addEventListener('click', () => {
     date.setMonth(date.getMonth() - 1);
     updateCalendar(date);
+    curMonthDay = $calendarContainer.querySelector('.month-day');
+    clickableDay = [...$calendarContainer.querySelectorAll('.d')];
   });
 
   nextButton.addEventListener('click', () => {
     date.setMonth(date.getMonth() + 1);
-    updateCalendar(date);   
+    updateCalendar(date);  
+    curMonthDay = $calendarContainer.querySelector('.month-day');
+    clickableDay = [...$calendarContainer.querySelectorAll('.d')]; 
   });
 
   monthDays.addEventListener('mouseover', event => {
@@ -84,34 +104,18 @@ const calendarFunction = ($calendarContainer) => {
   monthDays.addEventListener('mouseout', event => {
     event.target.classList.remove('active');
   });
+ 
+  curMonthDay.addEventListener('click', event => {
+    if (clickableDay.includes(event.target)) {
+      if ([...$calendarContainer.querySelectorAll('.clicked')].length === 0) {
+        event.target.classList.add('clicked');
+      } else {
+        $calendarContainer.querySelector('.clicked').classList.remove('clicked');
+        event.target.classList.add('clicked');
+      };
 
-  const datePickerInput = document.getElementsByClassName('date-picker-input')[0];
-  
-  monthDays.addEventListener('click', event => {
-    if (event.target === weekdays || event.target === monthDays || !accessibleDays.includes(event.target)) return;
-
-    if ([...document.getElementsByClassName('clicked')].length > 0) {
-      document.getElementsByClassName('clicked')[0].classList.remove('clicked');
-    }    
-    event.target.classList.add('clicked');
-    
-    const yyyy = currentYear.innerHTML;
-
-    let mm;
-    if (currentMonth.innerHTML === 'October' || currentMonth.innerHTML === 'November' || currentMonth.innerHTML === 'December') {
-      mm = monthsArr.indexOf(currentMonth.innerHTML) + 1;
-    } else {
-      mm = `0${monthsArr.indexOf(currentMonth.innerHTML) + 1}`
-    }
-    
-    let dd; 
-    if (document.getElementsByClassName('clicked')[0].innerHTML < 10) {
-      dd = `0${document.getElementsByClassName('clicked')[0].innerHTML}`
-    } else {
-      dd = document.getElementsByClassName('clicked')[0].innerHTML;
-    }
-    
-    datePickerInput.value = (`${yyyy}-${mm}-${dd}`);
+      datePickerInput.value = event.target.id;
+    };
   });
 };
 
