@@ -1,4 +1,5 @@
 import { createDOMWithClassName, appendChildren } from '../utils/dom.js';
+import getFullDate from '../utils/getFullDate.js';
 
 const monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const weekdaysArr = ['SUN', 'MON','TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -46,9 +47,13 @@ const calendarFunction = $calendarContainer => {
       let $id = getFullDate(currentYear.innerHTML, currentMonth.innerHTML, i);
       if (i === new Date().getDate() && newDate.getMonth() === new Date().getMonth()) {
         days += `<div class="every-day today d" id="${$id}">${i}</div>`;
-      } else if ((i + firstDay - 1) % 7 === 0) {
+      } 
+      
+      else if ((i + firstDay - 1) % 7 === 0) {
         days += `<div class="every-day sunday d" id="${$id}">${i}</div>`;  
-      } else {
+      } 
+      
+      else {
         days += `<div class="every-day d" id="${$id}">${i}</div>`;
       };
     };
@@ -60,17 +65,6 @@ const calendarFunction = $calendarContainer => {
   
     monthDays.innerHTML = days;
   };
-
-  function getFullDate(yyyy, mm, dd) {
-    let $yyyy = yyyy;
-    let $mm;
-    let $dd; 
-
-    monthsArr.indexOf(mm) + 1 < 10 ? $mm = `0${monthsArr.indexOf(mm) + 1}` : $mm = monthsArr.indexOf(mm) + 1;
-    dd < 10 ? $dd = `0${dd}` : $dd = dd;
-
-    return `${$yyyy}-${$mm}-${$dd}`;
-  }
 
   updateCalendar(date);  
 
@@ -109,12 +103,15 @@ const calendarFunction = $calendarContainer => {
     if (clickableDay.includes(event.target)) {
       if ([...$calendarContainer.querySelectorAll('.clicked')].length === 0) {
         event.target.classList.add('clicked');
-      } else {
+      }
+      
+      else {
         $calendarContainer.querySelector('.clicked').classList.remove('clicked');
         event.target.classList.add('clicked');
       };
 
       datePickerInput.value = event.target.id;
+      console.log(event.target.id);
     };
   });
 };

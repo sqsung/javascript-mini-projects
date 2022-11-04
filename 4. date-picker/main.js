@@ -16,14 +16,9 @@ for(let i = 0; i < $container.length; i++) {
 
   document.addEventListener('click', event => {
     if (event.target === datePickerInput) {
-      if (calendarContainer.style.display === 'none') {
-        calendarContainer.style.display = 'block';
-      } else {
-        calendarContainer.style.display = 'none';
-      }
-    } else if (event.target === $container[i]) {
-      calendarContainer.style.display = 'none';
-    };
+      if (calendarContainer.style.display === 'none') calendarContainer.style.display = 'block';
+      else calendarContainer.style.display = 'none';
+    } else if (event.target === $container[i]) calendarContainer.style.display = 'none';
   });
 };
 
