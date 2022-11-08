@@ -47,15 +47,11 @@ const calendarFunction = $calendarContainer => {
       let $id = getFullDate(currentYear.innerHTML, currentMonth.innerHTML, i);
       if (i === new Date().getDate() && newDate.getMonth() === new Date().getMonth()) {
         days += `<div class="every-day today d" id="${$id}">${i}</div>`;
-      } 
-      
-      else if ((i + firstDay - 1) % 7 === 0) {
+      } else if ((i + firstDay - 1) % 7 === 0) {
         days += `<div class="every-day sunday d" id="${$id}">${i}</div>`;  
-      } 
-      
-      else {
+      } else {
         days += `<div class="every-day d" id="${$id}">${i}</div>`;
-      };
+      }
     };
   
     for(let i = 1; i <= nextMonthDay; i++) {
@@ -77,19 +73,22 @@ const calendarFunction = $calendarContainer => {
   let curMonthDay = $calendarContainer.querySelector('.month-day');
   let clickableDay = [...$calendarContainer.querySelectorAll('.d')];
 
-  previousButton.addEventListener('click', () => {
-    date.setMonth(date.getMonth() - 1);
-    updateCalendar(date);
-    curMonthDay = $calendarContainer.querySelector('.month-day');
-    clickableDay = [...$calendarContainer.querySelectorAll('.d')];
-  });
 
-  nextButton.addEventListener('click', () => {
-    date.setMonth(date.getMonth() + 1);
-    updateCalendar(date);  
-    curMonthDay = $calendarContainer.querySelector('.month-day');
-    clickableDay = [...$calendarContainer.querySelectorAll('.d')]; 
-  });
+  calendarNav.addEventListener('click', event => {
+    if (event.target === previousButton) {
+      date.setMonth(date.getMonth() - 1);
+      updateCalendar(date);
+      curMonthDay = $calendarContainer.querySelector('.month-day');
+      clickableDay = [...$calendarContainer.querySelectorAll('.d')];
+    }
+
+    if (event.target === nextButton) {
+      date.setMonth(date.getMonth() + 1);
+      updateCalendar(date);  
+      curMonthDay = $calendarContainer.querySelector('.month-day');
+      clickableDay = [...$calendarContainer.querySelectorAll('.d')]; 
+    }
+  })
 
   monthDays.addEventListener('mouseover', event => {
     event.target.classList.add('active');
