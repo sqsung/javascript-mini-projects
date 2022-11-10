@@ -1,8 +1,7 @@
 class Nav extends HTMLElement {
     constructor() {
         super();
-        this.innerHTML =  
-        `<nav class="category-list">
+        this.innerHTML = `<nav class="category-list">
             <ul>
                 <li id="all" class="category-item active">전체보기</li>
                 <li id="business" class="category-item">비즈니스</li>
@@ -12,9 +11,9 @@ class Nav extends HTMLElement {
                 <li id="sports" class="category-item">스포츠</li>
                 <li id="technology" class="category-item">기술</li>
             </ul>
-        </nav>`
+        </nav>`;
     }
-};
+}
 
-window.customElements.define('category-list', Nav);
+window.customElements.define("category-list", Nav);
 export default Nav;

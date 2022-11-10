@@ -1,12 +1,11 @@
 class NewsList extends HTMLElement {
-  constructor() {
-    super(); 
+    constructor() {
+        super();
 
-    this.category = 'all';
-    this.size = 5;
-    this.page = 1;
-    this.innerHTML =
-    `
+        this.category = "all";
+        this.size = 5;
+        this.page = 1;
+        this.innerHTML = `
     <div class="news-list-container">
       <article class="news-list"></article>
       <div class="scroll-observer">
@@ -14,18 +13,21 @@ class NewsList extends HTMLElement {
       </div>
     </div>
     `;
-  }
+    }
 
-  async updateNewsList(cat, pg, sz) {
-    const currentNewsList = document.querySelector('.news-list');
-    const api = '3fb91bc39b5a462f93b8e29ae16f03d3';
-    let received;
+    async updateNewsList(cat, pg, sz) {
+        const currentNewsList = document.querySelector(".news-list");
+        const api = "3fb91bc39b5a462f93b8e29ae16f03d3";
+        let received;
 
-    try { 
-      received = await axios.get(`https://newsapi.org/v2/top-headlines?country=kr&category=${cat === 'all' ? '' : cat}&page=${pg}&pageSize=${sz}&apiKey=${api}`)
-      received.data.articles.forEach(article => {
-        currentNewsList.innerHTML +=
-        `
+        try {
+            received = await axios.get(
+                `https://newsapi.org/v2/top-headlines?country=kr&category=${
+                    cat === "all" ? "" : cat
+                }&page=${pg}&pageSize=${sz}&apiKey=${api}`
+            );
+            received.data.articles.forEach((article) => {
+                currentNewsList.innerHTML += `
         <section class="news-item">
             <div class="thumbnail">
                 <a href="${article.url}" target="_blank" rel="noopener noreferrer">
@@ -39,16 +41,15 @@ class NewsList extends HTMLElement {
                 <p>${article.description}</p>
             </div>
         </section>`;
-      })
-    } catch(e) {
-      console.log(`Check error: ${e}`);
+            });
+        } catch (e) {
+            console.log(`Check error: ${e}`);
+        }
     }
-  }
-  
-  clearNewsList() {
-    const currentNewsList = document.querySelector('news-list');
-    currentNewsList.innerHTML =
-    `
+
+    clearNewsList() {
+        const currentNewsList = document.querySelector("news-list");
+        currentNewsList.innerHTML = `
     <div class="news-list-container">
       <article class="news-list"></article>
       <div class="scroll-observer">
@@ -56,8 +57,8 @@ class NewsList extends HTMLElement {
       </div>
     </div>
     `;
-  }
+    }
 }
 
-window.customElements.define('news-list', NewsList);
+window.customElements.define("news-list", NewsList);
 export default NewsList;

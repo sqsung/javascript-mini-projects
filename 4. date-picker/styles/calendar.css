@@ -3,6 +3,7 @@
   --color-gray: rgb(196, 196, 196);
   --color-green: #5cd17b;
 }
+
 .calendar {
   display: none;
   margin-top: 5px;
@@ -14,6 +15,7 @@
   box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
+
 .calendar-nav {
   width: var(--calendar-size);
   height: calc(var(--calendar-size) * (1.3/6));
@@ -23,6 +25,7 @@
   justify-content: space-around;
   align-items: center;
 }
+
 .calendar-grid {
   width: var(--calendar-size);
   height: calc(var(--calendar-size) * (4.7/6));
@@ -30,21 +33,25 @@
   border-radius: 15px;
   padding: 0 5px 0 5px;
 }
+
 .month-and-year {
   color: white;
   font-weight: 300;
   font-size: calc(var(--calendar-size) * 0.05);
   text-align: center;
 }
+
 .year {
   font-size: calc(var(--calendar-size) * 0.04);
 }
+
 .previous,
 .next {
   color: white;
   font-size: 12px;
   cursor: pointer;
 }
+
 .weekdays {
   display: flex;
   align-items: center;
@@ -53,6 +60,7 @@
   margin-top: 10px;
   color: var(--color-gray);
 }
+
 .month-day {
   height: calc(var(--calendar-size) * 4/5);
   font-size: calc(var(--calendar-size) * 0.033);
@@ -61,6 +69,7 @@
   grid-template-columns: repeat(7, 1fr);
   margin-top: 20px;
 }
+
 .prev-month-day,
 .next-month-day,
 .every-day {
@@ -70,6 +79,7 @@
   padding-top: 10px;
   cursor: pointer;
 }
+
 .prev-month-day.active,
 .next-month-day.active,
 .every-day.active,
@@ -80,13 +90,16 @@
   background-color: var(--color-green);
   border-radius: 50%;
 }
+
 .today {
   border: 1px solid var(--color-green);
   border-radius: 50%;
 }
+
 .sunday {
   color: red;
 }
+
 .prev-month-day,
 .next-month-day {
   color: var(--color-gray);

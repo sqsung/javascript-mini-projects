@@ -1,5 +1,5 @@
-@import url(/styles/date-picker.css);
-@import url(/styles/calendar.css);
+@import url(./styles/date-picker.css);
+@import url(./styles/calendar.css);
 
 *,
 *::after,
@@ -7,11 +7,13 @@
   box-sizing: border-box;
   margin: 0;
 }
+
 body {
   background-color: #f2f4f6;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 300;
 }
+
 .container {
   margin-top: 40px;
 }
