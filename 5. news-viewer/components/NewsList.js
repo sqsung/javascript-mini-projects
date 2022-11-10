@@ -24,7 +24,8 @@ class NewsList extends HTMLElement {
     try { 
       received = await axios.get(`https://newsapi.org/v2/top-headlines?country=kr&category=${cat === 'all' ? '' : cat}&page=${pg}&pageSize=${sz}&apiKey=${api}`)
       received.data.articles.forEach(article => {
-        currentNewsList.innerHTML += `
+        currentNewsList.innerHTML +=
+        `
         <section class="news-item">
             <div class="thumbnail">
                 <a href="${article.url}" target="_blank" rel="noopener noreferrer">
@@ -47,7 +48,7 @@ class NewsList extends HTMLElement {
   clearNewsList() {
     const currentNewsList = document.querySelector('news-list');
     currentNewsList.innerHTML =
-        `
+    `
     <div class="news-list-container">
       <article class="news-list"></article>
       <div class="scroll-observer">

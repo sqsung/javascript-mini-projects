@@ -44,14 +44,13 @@ for(let i = 0; i < $root.length; i++) {
         const io = new IntersectionObserver((entries) => {
             if (entries[0].intersectionRatio === 1) return;
             if (entries[0].isIntersecting) {
-                console.log(`It's working once`);
                 newsListDOMProxy.page++;
                 let $cateogry = newsListDOMProxy['category'];
                 let $pg = newsListDOMProxy['page'];
                 let $sz = newsListDOMProxy['size'];
                 newsListDOMProxy.updateNewsList($cateogry, $pg, $sz);
             }
-        }, options)
+        }, options);
         
         io.observe(scrollObserver);
     }
